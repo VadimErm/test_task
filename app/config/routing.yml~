@@ -7,10 +7,9 @@ AppBundle_comments:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"    
     
-homepage:
-   path: /
+
 projects:
-   path: /projects
+   path: /
    defaults: {_controller:AppBundle:Main:projects}
 issues:
    path: /projects/{projectId}/issues

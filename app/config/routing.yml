@@ -11,12 +11,16 @@ fos_user:
 projects:
    path: /
    defaults: {_controller:AppBundle:Main:projects}
+   methods: [GET]
 issues:
    path: /projects/{projectId}/issues
    defaults: {_controller:AppBundle:Main:issues}
+   methods: [GET]
 issue:
    path: /issues/{issueId}
    defaults: {_controller:AppBundle:Main:showIssue}
+   methods: [GET]   
+   
 track_time:
    path: /issues/{issueId}/time_entries/new
    defaults: {_controller:AppBundle:Main:trackTime}
