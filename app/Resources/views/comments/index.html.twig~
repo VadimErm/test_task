@@ -1,0 +1,50 @@
+{% extends 'default/issues.html.twig' %}
+
+{% block content %}
+<div class="panel panel-default"> 
+   <div class="panel-heading"><h4>Comments list</h4></div> 
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Comment</th>
+                <th>Createdat</th>
+                <th>Author</th>
+                
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td><a href="{{ path('comments_show', { 'id': comment.id, 'projectId' : projectId  }) }}">{{ comment.id }}</a></td>
+                <td>{{ comment.comment }}</td>
+                <td>{% if comment.createdAt %}{{ comment.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ comment.user }}</td>
+                
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('comments_show', { 'id': comment.id, 'projectId' : projectId }) }}">show</a>
+                        </li>
+                       {% if comment.user.id == user.id %}
+                        <li>
+                            <a href="{{ path('comments_edit', { 'id': comment.id, 'projectId' : projectId }) }}">edit</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <ul>
+        <li>
+            <a href="{{ path('comments_new', { 'projectId' : projectId }) }}">Create a new comment</a>
+        </li>
+        <li>
+             <a href="{{ path('projects') }}">Back to the projetc's list</a>        
+        </li>
+    </ul>
+{% endblock %}

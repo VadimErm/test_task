@@ -1,0 +1,28 @@
+comments_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Comments:index" }
+    methods:  GET
+
+comments_show:
+    path:    /{projectId}/{id}/show
+    defaults: { _controller: "AppBundle:Comments:show" }
+    methods:  GET
+
+comments_new:
+    path:     /{projectId}/new
+    defaults: { _controller: "AppBundle:Comments:new" }
+    methods:  [GET, POST]
+
+comments_edit:
+    path:     /{projectId}/{id}/edit
+    defaults: { _controller: "AppBundle:Comments:edit" }
+    methods:  [GET, POST]
+
+comments_delete:
+    path:     /{projectId}/{id}/delete
+    defaults: { _controller: "AppBundle:Comments:delete" }
+    methods:  DELETE
+comments_by_poject:
+    path: /{projectId}
+    defaults: { _controller: "AppBundle:Comments:showByProject" }
+    methods:  GET

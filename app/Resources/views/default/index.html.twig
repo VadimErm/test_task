@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %} 
+<nav class="navbar navbar-default">
+       {% block menu %}
+       {% endblock %}
+               
+       <p class="text-right loggedas">
+          Logged as <b>{{ user }}</b>&nbsp
+          <a href="{{ path('logout') }}">Logout</a>          
+       </p>
+</nav> 
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+{% endblock %}
+

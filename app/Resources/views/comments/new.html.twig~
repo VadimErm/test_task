@@ -1,0 +1,37 @@
+{% extends 'default/issues.html.twig' %}
+
+{% block content %}
+
+    
+<div class="row">
+  <div class="col-md-4"> 
+      {{ form_start(form) }}
+      {{ form_errors(form) }}
+      <div class="form-group">
+           {{ form_label(form.comment) }}
+           {{ form_errors(form.comment) }}
+           {{ form_widget(form.comment, {'attr': {'class':'form-control'}}) }}    
+      </div> 
+      <div class="form-group">
+           
+           {{ form_errors(form.createdAt) }}
+           {{ form_widget(form.createdAt) }}    
+      </div> 
+      <div class="form-group">
+           {{ form_label(form.projectId) }}
+           {{ form_errors(form.projectId) }}
+           {{ form_widget(form.projectId, {'value': projectId, 'attr': {'class':'form-control'}}) }}    
+      </div> 
+      <div class="form-group">  
+        <input class="btn btn-primary" type="submit" value="Create" />
+      </div>
+      {{ form_end(form) }}
+    </div>
+ </div>
+
+    <ul>
+        <li>
+            <a href="{{ path('comments_by_poject', { 'projectId' : projectId }) }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

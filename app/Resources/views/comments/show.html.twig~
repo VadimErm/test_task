@@ -1,0 +1,39 @@
+{% extends 'default/issues.html.twig' %}
+
+{% block content %}
+    
+
+    <table class="table  table-bordered">
+        <thead>
+            <tr>
+                 <th>Id</th>
+                 <th>Comment</th>
+                 <th>Created</th>            
+            </tr>
+        </thead>
+        <tbody>
+            <tr>     
+                 <td>{{ comment.id }}</td>
+                 <td>{{ comment.comment }}</td>
+                 <td>{% if comment.createdAt %}{{ comment.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('comments_by_poject', { 'projectId' : projectId }) }}">Back to the comments list</a>
+        </li>
+        {% if comment.user.id == user.id %}
+        <li>
+            <a href="{{ path('comments_edit', { 'id': comment.id, 'projectId' : projectId }) }}">Edit</a>
+        </li>
+        
+        <li>
+            {{ form_start(delete_form) }}
+                <input class="btn btn-primary" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+        {% endif %}
+    </ul>
+{% endblock %}

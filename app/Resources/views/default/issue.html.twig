@@ -1,0 +1,49 @@
+{% extends 'default/issues.html.twig' %}
+
+{% block content %}
+
+    
+        <h3>Issue&nbsp#{{ issue.id }}</h3>
+        <div class="panel panel-default">
+             <div class="panel-heading">Subject:&nbsp{{ issue.subject }}</div>
+              
+            
+                  <table class="table table-bordered">
+                      <thead>
+                         <tr>
+                            <th>Author</th>
+                            <th>Status</th>                            
+                            <th>Priority</th>
+                            <th>Start date</th>
+                            <th>Updated</th>
+                            <th>Spent time</th>                         
+                         </tr>                     
+                      </thead>
+                      <tbody>
+                         <tr>
+                             <td>{{ issue.author.name }}</td> 
+                             <td>{{ issue.status.name }}</td> 
+                             <td>{{ issue.priority.name }}</td> 
+                             <td>{{ issue.start_date | date('d/m/Y') }}</td> 
+                             <td>{{ issue.updated_on | date('d/m/Y') }}</td> 
+                             <td>{{ issue.spent_hours | round(2, 'ceil') }}
+                                 <a class="btn btn-default" href="{{ path('track_time', {'issueId': issue.id  }) }}">Track time</a>                               
+                             </td>                         
+                         </tr>                       
+                      </tbody>                    
+                  </table>
+                </div>
+                  <div class="panel panel-default">
+                      <div class="panel-heading"><h3 class="panel-title">Description</h3></div>
+                       <div class="panel-body">
+                          {{ issue.description }}
+                       </div>
+                     
+                  </div>
+             
+            
+             
+        
+    </div>
+
+{% endblock %}

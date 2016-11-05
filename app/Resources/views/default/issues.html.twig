@@ -1,0 +1,48 @@
+{% extends 'default/projects.html.twig' %}
+{% block menu %}
+   <ul class="nav navbar-nav navbar-left">
+     <li><a href="{{ path('projects') }}">Projects</a></li>
+      <li><a href="{{ path('issues', { 'projectId' : project.id }) }}">Issues</a></li> 
+      <li><a href="{{ path('comments_by_poject', { 'projectId' : project.id }) }}">Comments</a></li>  
+   </ul>
+{% endblock %}
+{% block header %}
+   <div class="page-header">
+      <h1>{{ project.name }}</h1>
+   </div>
+{% endblock %}
+
+{% block content %}
+<div class="panel panel-default"> 
+   <div class="panel-heading"><h4>Issues</h4></div> 
+     <table class="table table-striped">
+       <thead>
+         <tr>
+            <th>Id</th>
+            <th>Tracker</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Subject</th>
+            <th>Author</th>
+            <th>Updated</th>
+         </tr>
+       </thead>
+      <tbody>  
+          
+           {% for issue in issues %}
+         <tr>
+             <td><a href="{{ path('issue', { 'issueId' : issue.id }) }}">{{ issue.id }}</a></td>
+             <td>{{ issue.tracker.name }}</td>
+             <td>{{ issue.status.name }}</td>
+             <td>{{ issue.priority.name }}</td>
+             <td>{{ issue.subject }}</td>
+             <td>{{ issue.author.name }}</td>
+             <td>{{ issue.updated_on }}</td>
+         </tr>
+           {% endfor %}
+      </tbody>
+     </table> 
+</div> 
+      
+
+{% endblock %}
