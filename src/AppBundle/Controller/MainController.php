@@ -1,19 +1,14 @@
 <?php
 namespace AppBundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
-
-
 class MainController extends Controller 
 {
-     
-	
+
       public function projectsAction() 
       {
            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) 
@@ -25,13 +20,20 @@ class MainController extends Controller
           
            $client = $this->get('redmine_client')->getClient();
            $projects = $client->api('project')->all();
-            
-           
-          
-           return $this->render('default/projects.html.twig',
+
+           $response =  $this->render('default/projects.html.twig',
                                  ['projects'=>$projects['projects'],
                                   'user' => $user,
-                                 ]);  
+                                 ]);
+           $response->setPrivate();
+           $serializer = $this->get('serializer');
+           $data = $serializer->serialize($projects['projects'],'json');
+           $eTag = md5($data);
+           $response->setETag($eTag);
+           if ($response->isNotModified($this->get('request'))) {
+               return $response;
+           }
+           return $response;
       }
       
       public function issuesAction($projectId) 
@@ -57,7 +59,7 @@ class MainController extends Controller
                                  'project' => $project['project'], 
                                  'user' => $user                               
                                 ]); 
-           $response->setPublic();
+           $response->setPrivate();
            $serializer = $this->get('serializer');
            $data = $serializer->serialize($issues['issues'],'json');
            $eTag = md5($data);
@@ -65,7 +67,7 @@ class MainController extends Controller
            if ($response->isNotModified($this->get('request'))) {
                return $response;             
            }
-             return $response;  
+          return $response;
       }
       
       public function showIssueAction($issueId) 
@@ -94,20 +96,18 @@ class MainController extends Controller
            if ($response->isNotModified($this->get('request'))) {
                return $response;             
            }
-             return $response;  
+          return $response;
              
       }
       
       public function trackTimeAction(Request $request, $issueId) 
       {
            
-           if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) 
-    	     {
+           if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+           {
                  throw $this->createAccessDeniedException();
            }  
-           
-           
-        
+
            $user = $this->getUser();               
            $client = $this->get('redmine_client')->getClient();
            
@@ -126,10 +126,7 @@ class MainController extends Controller
             
             if($form->isSubmitted() && $form->isValid()) {
                    $data = $form->getData();
-                  
-            
-                   
-                  
+
                            $client->api('time_entry')->create(array(
                                 'issue_id' => $data['issue'],
                                 'hours'       => $data['hours'],
@@ -139,12 +136,13 @@ class MainController extends Controller
                    
             }
             return $this->render('default/track_time.html.twig',
-                                 ['issueId'=>$issueId,
-                                 'form'=>$form->createView(),
-                                  'issue'=>$issue['issue'],
-                                  'user' => $user,
-                                  'project' => $project['project']                                   
-                                 ] ); 
+                [
+                    'issueId'=>$issueId,
+                    'form'=>$form->createView(),
+                    'issue'=>$issue['issue'],
+                    'user' => $user,
+                    'project' => $project['project']
+                ] );
       }
       
       
